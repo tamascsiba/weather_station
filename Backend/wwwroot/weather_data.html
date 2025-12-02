@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Weather Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tabulator-tables@5.0.7/dist/css/tabulator_semanticui.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-size: cover;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: white;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: rgba(60, 59, 110, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            max-width: 1200px;
+            overflow-y: auto;
+            height: 90vh;
+            position: relative;
+        }
+        h1 {
+            color: #FFD700;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        #weather-table {
+            margin-top: 20px;
+            width: 100%;
+        }
+        .tabulator {
+            background-color: #333;
+            color: white;
+        }
+        .tabulator .tabulator-header {
+            background-color: #333;
+            color: white;
+            border-bottom: 1px solid #555;
+        }
+        .tabulator .tabulator-header .tabulator-col {
+            background-color: #444;
+            border-right: 1px solid #555;
+            transition: color 0.2s ease;
+        }
+        .tabulator .tabulator-header .tabulator-col:last-child {
+            border-right: none;
+        }
+        .tabulator .tabulator-row {
+            background-color: #333;
+            color: white;
+            height: 20px !important;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .tabulator .tabulator-row:nth-child(even) {
+            background-color: #444;
+        }
+        .tabulator .tabulator-row:hover {
+            background-color: #555;
+            color: black;
+        }
+        .tabulator .tabulator-row:hover .tabulator-cell {
+            color: black;
+        }
+        .tabulator .tabulator-cell {
+            text-align: center;
+            vertical-align: middle;
+            color: white;
+            line-height: 1em;
+            padding: 0.1em 0.1em;
+            border-right: 1px solid #555;
+            transition: color 0.2s ease;
+        }
+        .tabulator .tabulator-cell:last-child {
+            border-right: none;
+        }
+        .tabulator .tabulator-footer {
+            background-color: #333;
+            color: white;
+        }
+        .tabulator .tabulator-footer .tabulator-page {
+            background-color: #444;
+            color: white;
+            border: 1px solid #555;
+            margin: 0 2px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .tabulator .tabulator-footer .tabulator-page:hover {
+            background-color: #555;
+            color: #FFD700;
+        }
+        .tabulator .tabulator-footer .tabulator-page.active {
+            background-color: #FFD700;
+            color: #333;
+            font-weight: bold;
+            border: 1px solid #444;
+        }
+
+        .tabulator .tabulator-header .tabulator-col:hover {
+            color: black;
+        }
+
+        .tabulator .tabulator-row:hover .tabulator-cell {
+            color: black;
+        }
+
+        .back-button {
+            margin: 20px auto;
+            display: block;
+            max-width: 200px;
+            background-color: #FFD700;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #FFC300;
+            cursor: pointer;
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .csv-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: #FFD700;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .csv-button:hover {
+            background-color: #FFC300;
+            cursor: pointer;
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>All Weather Data</h1>
+        <div id="weather-table"></div>
+        <a href="index.html" class="back-button">Back</a>
+        <button class="csv-button" id="csv-button">Download CSV</button>
+    </div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/tabulator-tables@5.0.7/dist/js/tabulator.min.js"></script>
+    <script>
+        let table;
+
+        async function fetchWeatherData() {
+            try {
+                const response = await fetch('/WeatherReport/GetAllReceivedData');
+                const data = await response.json();
+                
+                const columns = [
+                    {title: "Date", field: "Date", widthGrow: 3},
+                    {title: "Time", field: "Time", widthGrow: 1},
+                    {title: "Temperature (°C)", field: "Temperature", widthGrow: 2},
+                    {title: "Humidity (%)", field: "Humidity", widthGrow: 1},
+                    {title: "Rainfall (mm)", field: "RainfallLastHour", widthGrow: 2},
+                    {title: "UVI", field: "uvIndex", widthGrow: 1},
+                    {title: "Pressure (hPa)", field: "Pressure", widthGrow: 2},
+                    {title: "Wind Speed (km/h)", field: "WindSpeed", widthGrow: 2},
+                    {title: "Soil Moisture (%)", field: "SoilMoisture", widthGrow: 1}
+                ];
+
+                table = new Tabulator("#weather-table", {
+                    data: data,
+                    layout: "fitDataStretch",
+                    columns: columns,
+                    pagination: "local",
+                    paginationSize: 15,
+                    movableColumns: true,
+                    resizableRows: true,
+                });
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+            }
+        }
+
+        document.getElementById("csv-button").addEventListener("click", function() {
+            if (table) {
+                table.download("csv", "weather_data.csv");
+            }
+        });
+
+        fetchWeatherData();
+    </script>
+</body>
+</html>

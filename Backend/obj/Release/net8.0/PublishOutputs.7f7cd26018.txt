@@ -1,0 +1,7 @@
+C:\Users\csiba\Documents\weather_station\Backend\bin\Release\net8.0\publish\Backend.exe
+C:\Users\csiba\Documents\weather_station\Backend\bin\Release\net8.0\publish\appsettings.Development.json
+C:\Users\csiba\Documents\weather_station\Backend\bin\Release\net8.0\publish\appsettings.json
+C:\Users\csiba\Documents\weather_station\Backend\bin\Release\net8.0\publish\Backend.dll
+C:\Users\csiba\Documents\weather_station\Backend\bin\Release\net8.0\publish\Backend.deps.json
+C:\Users\csiba\Documents\weather_station\Backend\bin\Release\net8.0\publish\Backend.runtimeconfig.json
+C:\Users\csiba\Documents\weather_station\Backend\bin\Release\net8.0\publish\Backend.pdb

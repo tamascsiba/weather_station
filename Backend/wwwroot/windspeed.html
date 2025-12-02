@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Wind Speed Chart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(60, 59, 110, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            max-width: 1000px;
+            width: 100%;
+        }
+        h1 {
+            color: #FFD700;
+            text-align: center;
+            margin-bottom: 18px;
+            font-size: 1.8rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        #datePicker {
+            display: block;
+            margin: 0 auto 20px;
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        canvas {
+            background-color: rgba(30, 29, 29, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            height: 400px;
+        }
+        p {
+            text-align: center;
+            font-size: 20px;
+            color: #FFD700;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .back-button {
+            margin: 20px auto;
+            display: block;
+            max-width: 200px;
+            background-color: #FFD700;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #FFC300;
+            cursor: pointer;
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95vw;
+                height: auto;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            p {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Wind Speed Throughout the Day</h1>
+        <p>Select a Date</p>
+        <input type="date" id="datePicker" class="form-control" />
+        <canvas id="windChart"></canvas>
+        <a href="index.html" class="back-button">Back</a>
+    </div>
+
+    <script>
+        let chart;
+
+        async function fetchWindSpeedData(selectedDate) {
+            try {
+                const response = await fetch('/WeatherReport/GetWindSpeedData');
+                const data = await response.json();
+
+                const filteredData = data.filter(entry => {
+                    const [year, month, day] = entry.Date.split('-');
+                    const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                    return formattedDate === selectedDate;
+                });
+
+                const labels = filteredData.map(entry => entry.Time);
+                const windSpeedValues = filteredData.map(entry => entry.WindSpeed);
+
+                if (chart) {
+                    chart.destroy();
+                }
+
+                const ctx = document.getElementById('windChart').getContext('2d');
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Wind Speed (km/h)',
+                            data: windSpeedValues,
+                            borderColor: '#00BFFF',
+                            backgroundColor: 'rgba(0, 191, 255, 0.5)',
+                            pointBackgroundColor: '#FFFFFF',
+                            pointBorderColor: '#00BFFF',
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                    color: 'white',
+                                    font: {
+                                        size: 14
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 191, 255, 0.8)',
+                                titleColor: 'black',
+                                bodyColor: 'black',
+                                borderColor: '#00BFFF',
+                                borderWidth: 1
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: true,
+                                    color: 'rgba(255, 255, 255, 0.2)'
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Time',
+                                    color: 'white',
+                                    font: {
+                                        size: 14
+                                    }
+                                },
+                                ticks: {
+                                    color: 'white',
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    display: true,
+                                    color: 'rgba(255, 255, 255, 0.2)'
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Wind Speed (km/h)',
+                                    color: 'white',
+                                    font: {
+                                        size: 14
+                                    }
+                                },
+                                ticks: {
+                                    color: 'white',
+                                    font: {
+                                        size: 12
+                                    },
+                                    stepSize: 1,
+                                    callback: function(value) {
+                                        return value + ' km/h';
+                                    }
+                                }
+                            }
+                        },
+                        animation: {
+                            duration: 1500,
+                            easing: 'easeInOutQuart'
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching wind speed data:', error);
+            }
+        }
+
+        document.getElementById('datePicker').addEventListener('change', (event) => {
+            const selectedDate = event.target.value;
+            fetchWindSpeedData(selectedDate);
+        });
+
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('datePicker').value = today;
+        fetchWindSpeedData(today);
+    </script>
+</body>
+</html>
