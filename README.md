@@ -150,20 +150,21 @@ public class WeatherData
 }
 ```
 
-```bash
+
 
 ### 🌐 API Endpoints
-Method	Endpoint	Description
-POST	/WeatherReport/ReceiveData	Receives sensor data from ESP32
-GET	/WeatherReport/GetAllReceivedData	Returns all stored data
-GET	/WeatherReport/GetTemperatureData	Temperature data
-GET	/WeatherReport/GetHumidityData	Humidity data
-GET	/WeatherReport/GetPressureData	Pressure data
-GET	/WeatherReport/GetRainfallData	Rainfall data
-GET	/WeatherReport/GetUVIntensityData	UV index data
-GET	/WeatherReport/GetWindSpeedData	Wind speed data
-GET	/WeatherReport/GetSoilMoistureData	Soil moisture data
+Method	Endpoint	                                Description
 
+```bash
+POST	/WeatherReport/ReceiveData	                Receives sensor data from ESP32
+GET	    /WeatherReport/GetAllReceivedData	        Returns all stored data
+GET    	/WeatherReport/GetTemperatureData	        Temperature data
+GET	    /WeatherReport/GetHumidityData	            Humidity data
+GET    	/WeatherReport/GetPressureData	            Pressure data
+GET	    /WeatherReport/GetRainfallData	            Rainfall data
+GET    	/WeatherReport/GetUVIntensityData	        UV index data
+GET    	/WeatherReport/GetWindSpeedData	            Wind speed data
+GET    	/WeatherReport/GetSoilMoistureData	        Soil moisture data
 ```
 
 ---
