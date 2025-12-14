@@ -68,6 +68,13 @@ All measurements are timestamped and permanently stored.
 ↓
 [Web Dashboard]
 
+---
+
+## Schematic
+
+![Schematic](images/schem.png)
+
+
 
 ---
 
