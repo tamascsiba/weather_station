@@ -75,7 +75,7 @@ All measurements are timestamped and permanently stored.
 
 ### 🏠 Main Dashboard
 
-![Main Dashboard](images/Képernyőkép 2025-01-07 140837.png)
+![Main Dashboard](images/dashboard.png)
 
 The main dashboard shows the **latest received weather data** using a card-based layout:
 - Large, readable values
@@ -87,7 +87,7 @@ The main dashboard shows the **latest received weather data** using a card-based
 
 ### 📊 Temperature Chart Example
 
-![Temperature Chart](images/Képernyőkép 2025-01-07 141518.png)
+![Temperature Chart](images/temp.png)
 
 Each sensor has its own interactive daily chart:
 - Date selection
@@ -100,7 +100,7 @@ Charts are implemented using **Chart.js**.
 
 ### 📋 All Weather Data Table
 
-![All Weather Data Table](images/Képernyőkép 2025-01-07 141942.png)
+![All Weather Data Table](images/alldata.png)
 
 All collected data can be viewed in a table with:
 - Pagination
