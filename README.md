@@ -29,6 +29,35 @@ Mounted components:
 
 ---
 
+### 📦 Features
+
+- 🌡️ **Temperature, Humidity, Pressure** measurement (BME280)
+- 🌧️ **Rainfall measurement** (DFRobot Rainfall Sensor)
+- ☀️ **UV Index measurement** (GUVA-S12SD)
+- 💨 **Wind speed measurement** (analog wind sensor)
+- 🌱 **Soil moisture measurement**
+- 🕒 **Real-Time Clock (RTC)** via NTP (SIM module)
+- 📊 **Sensor data collected every minute**
+- 📡 **Hourly HTTP POST data upload**
+- 💤 **SIM module sleep mode for power saving**
+
+---
+
+### 🧰 Hardware Requirements
+
+| Component | Description |
+|---------|------------|
+| ESP32 | Main microcontroller |
+| BME280 | Temperature / Humidity / Pressure sensor |
+| DFRobot Rainfall Sensor | Rain gauge |
+| GUVA-S12SD | UV sensor |
+| Analog wind sensor | Wind speed measurement |
+| Soil moisture sensor | Analog soil sensor |
+| SIM A7670E | Cellular communication module |
+| GSM antenna | Required for network connectivity |
+
+---
+
 ### 🔋 Power Supply & Electronics
 
 ![Electronics Enclosure](images/IMG_5529.JPG)
@@ -56,6 +85,53 @@ The weather station measures and stores the following data:
 - Soil moisture (%)
 
 All measurements are timestamped and permanently stored.
+
+---
+
+## 🔌 Pin Configuration
+
+### I2C (BME280 + Rainfall Sensor)
+
+| Function | ESP32 GPIO |
+|--------|-----------|
+| SDA | GPIO 21 |
+| SCL | GPIO 22 |
+
+### Analog Inputs
+
+| Sensor | GPIO |
+|------|------|
+| Soil Moisture | GPIO 32 |
+| Wind Speed | GPIO 33 |
+| UV Sensor | GPIO 34 |
+
+### SIM Module (UART2)
+
+| Function | ESP32 GPIO |
+|--------|-----------|
+| RX | GPIO 16 |
+| TX | GPIO 17 |
+
+---
+
+## ⏱️ System Operation
+
+### Every Second
+- Update internal clock  
+- Read wind speed and store measurements  
+
+### Every Minute
+- Read all sensors  
+- Calculate maximum wind speed for the last minute  
+- Generate a JSON object  
+- Store data in an hourly buffer  
+
+### Every Hour
+- Combine all minute-level JSON objects into a JSON array  
+- Send data to the server via HTTP POST  
+- Reset rainfall counter  
+- Re-sync time using NTP  
+- Put SIM module into sleep mode
 
 ---
 
