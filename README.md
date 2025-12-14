@@ -153,7 +153,7 @@ GET	/WeatherReport/GetSoilMoistureData	Soil moisture data
 
 ---
 
-###🔌 ESP32 Firmware
+### 🔌 ESP32 Firmware
 
 The ESP32 firmware:
 
@@ -183,7 +183,7 @@ Example payload:
 ```
 ---
 
-###🎨 User Interface
+### 🎨 User Interface
 
 Dark theme
 
@@ -197,7 +197,7 @@ Optimized for desktop and mobile use
 
 ---
 
-###✅ Key Features
+### ✅ Key Features
 
 Solar powered
 
@@ -217,7 +217,7 @@ Easily expandable system
 
 ---
 
-###🚀 Possible Future Improvements
+### 🚀 Possible Future Improvements
 
 Alerts and notifications
 
