@@ -58,6 +58,8 @@ All measurements are timestamped and permanently stored.
 
 ## 🧭 System Architecture
 
+```bash
+
 [Sensors]
 ↓
 [ESP32]
@@ -67,6 +69,8 @@ All measurements are timestamped and permanently stored.
 [SQLite Database]
 ↓
 [Web Dashboard]
+
+```
 
 ---
 
@@ -146,6 +150,8 @@ public class WeatherData
 }
 ```
 
+```bash
+
 ### 🌐 API Endpoints
 Method	Endpoint	Description
 POST	/WeatherReport/ReceiveData	Receives sensor data from ESP32
@@ -157,6 +163,8 @@ GET	/WeatherReport/GetRainfallData	Rainfall data
 GET	/WeatherReport/GetUVIntensityData	UV index data
 GET	/WeatherReport/GetWindSpeedData	Wind speed data
 GET	/WeatherReport/GetSoilMoistureData	Soil moisture data
+
+```
 
 ---
 
