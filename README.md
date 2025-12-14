@@ -153,9 +153,9 @@ public class WeatherData
 
 
 ### 🌐 API Endpoints
-Method	Endpoint	                                Description
 
 ```bash
+Method	Endpoint	                                Description
 POST	/WeatherReport/ReceiveData	                Receives sensor data from ESP32
 GET	    /WeatherReport/GetAllReceivedData	        Returns all stored data
 GET    	/WeatherReport/GetTemperatureData	        Temperature data
