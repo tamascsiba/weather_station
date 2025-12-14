@@ -20,9 +20,12 @@ The system is a complete **end-to-end IoT solution**, covering hardware, firmwar
 The weather station is installed outdoors and powered entirely by a **solar panel**, making it fully autonomous and independent from grid power.
 
 Mounted components:
-- Solar panel
-- Wind speed sensor (anemometer)
-- Weather-resistant sensor housings
+- Solar panel (50W)
+- Wind speed sensor (anemometer) (dynamo)
+- BME280 (temperature, humidity and pressure sensor in IP68 case)
+- Soil moisture sensor
+- GUVA-S12SD (UV sensor)
+- DFRobot Rainfall Gauge (Gravity:SEN0575)
 
 ---
 
